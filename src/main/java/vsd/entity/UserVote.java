@@ -21,4 +21,36 @@ public class UserVote extends AuditEntity {
 
     @Column(name = "vote_option_id")
     Long voteOptionId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getVoteId() {
+        return voteId;
+    }
+
+    public void setVoteId(Long voteId) {
+        this.voteId = voteId;
+    }
+
+    public Long getVoteOptionId() {
+        return voteOptionId;
+    }
+
+    public void setVoteOptionId(Long voteOptionId) {
+        this.voteOptionId = voteOptionId;
+    }
 }
