@@ -29,7 +29,7 @@ public class VoteService {
         Vote vote = new Vote();
         vote.setTitle(vo.getTitle());
         vote.setType(vo.getType());
-        // TODO
+        // TODO：creator
         vote.setCreator(1L);
         vote.setEndTime(vo.getEndTime());
         voteRepository.save(vote);
@@ -42,7 +42,31 @@ public class VoteService {
     }
 
     public List<VoteVO> getVotes() {
-        return voteRepository.findAllVotes();
+        List<VoteVO> voteVos = new ArrayList<>();
+        // TODO: creator
+        List<Vote> votes = voteRepository.findByCreator(1L);
+
+        votes.forEach(vote -> {
+            VoteVO voteVO = new VoteVO();
+            List<VoteOption> voteOptions = voteOptionRepository.findByVoteIdOrderByOptionSeq(vote.getId());
+            List<VoteOptionVO> voteOptionVos = new ArrayList<>();
+            voteOptions.forEach(voteOption -> {
+                VoteOptionVO voteOptionVO = new VoteOptionVO();
+                convert(voteOption, voteOptionVO);
+                voteOptionVos.add(voteOptionVO);
+            });
+            voteVO.setType(vote.getType());
+            voteVO.setTitle(vote.getTitle());
+            voteVO.setEndTime(vote.getEndTime());
+            voteVO.setVoteOptions(voteOptionVos);
+            voteVos.add(voteVO);
+        });
+        return voteVos;
+    }
+
+    private void convert(VoteOption voteOption, VoteOptionVO voteOptionVO) {
+        voteOptionVO.setDescription(voteOption.getDescription());
+        voteOptionVO.setOptionSeq(voteOption.getOptionSeq());
     }
 
     public VoteVO getVote(Long voteId) {
